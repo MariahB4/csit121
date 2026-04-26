@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Portal - Bonus</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; padding: 40px; background-color: #f9f9f9; }
+        .content-area { text-align: center; }
+        
+        .toggle-btn { 
+            background-color: #207d48; 
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 5px; 
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        #tableWrapper { display: none; margin-top: 30px; }
+        
+        table { width: 95%; margin: auto; border-collapse: collapse; background: white; }
+        th, td { padding: 15px; text-align: left; border: 1px solid #eee; }
+        
+        th { background-color: #45c279; color: white; }
+        tr:nth-child(even) { background-color: #f2fdf7; }
+    </style>
+</head>
+<body>
+
+    <div class="content-area">
+        <h2>Staff Directory</h2>
+        <button type="button" id="mainBtn" class="toggle-btn" onclick="toggleDisplay()">Get Employee Data</button>
+
+        <div id="tableWrapper">
+            <table id="staffTable"></table>
+        </div>
+    </div>
+
+<script>
+    let alreadyLoaded = false;
+
+    function toggleDisplay() {
+        const container = document.getElementById("tableWrapper");
+        const btn = document.getElementById("mainBtn");
+
+        if (container.style.display === "none" || container.style.display === "") {
+            if (!alreadyLoaded) {
+                fetchXml();
+            }
+            container.style.display = "block";
+            btn.textContent = "Close Employee Data";
+        } else {
+            container.style.display = "none";
+            btn.textContent = "Get Employee Data";
+        }
+    }
+
+    function fetchXml() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "employee.xml", true);
+        xhr.onload = function() {
+            if (this.status === 200) {
+                const xml = this.responseXML;
+                let rows = "<tr><th>First Name</th><th>Last Name</th><th>Title</th><th>Division</th><th>Building</th><th>Room</th></tr>";
+                const employees = xml.getElementsByTagName("employee");
+
+                for (let i = 0; i < employees.length; i++) {
+                    rows += "<tr>" +
+                        "<td>" + employees[i].getElementsByTagName("firstname")[0].textContent + "</td>" +
+                        "<td>" + employees[i].getElementsByTagName("lastname")[0].textContent + "</td>" +
+                        "<td>" + employees[i].getElementsByTagName("title")[0].textContent + "</td>" +
+                        "<td>" + employees[i].getElementsByTagName("division")[0].textContent + "</td>" +
+                        "<td>" + employees[i].getElementsByTagName("building")[0].textContent + "</td>" +
+                        "<td>" + employees[i].getElementsByTagName("room")[0].textContent + "</td>" +
+                    "</tr>";
+                }
+                document.getElementById("staffTable").innerHTML = rows;
+                alreadyLoaded = true;
+            }
+        };
+        xhr.send();
+    }
+</script>
+
+</body>
+</html>
