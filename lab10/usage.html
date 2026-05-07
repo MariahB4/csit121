@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to use WOFF</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Home</a> | 
+        <a href="importance.html">Importance</a> | 
+        <a href="usage.html">Usage</a> | 
+        <a href="sources.html">Sources</a>
+    </nav>
+
+    <main>
+        <h1>Using WOFF in your code</h1>
+
+        <p>
+            To use WOFF on a website, you usually have to deal with CSS rather than HTML. The most common way is using the @font-face rule. You basically tell the browser, "Hey, here is a font I want to call 'MainFont', and here is the link to the .woff2 file." Once the browser sees that, it downloads the font in the background so you can use it later in your stylesheet. It’s a pretty simple process once you get the syntax down correctly.
+        </p>
+
+        <p>
+            One smart thing developers do is provide "fallback" fonts in case the WOFF file fails to load. In your CSS, you would list your custom font first, but then follow it up with something like Arial or just Sans-Serif. This way, the user always sees the text even if their connection is slow or the font file is missing. Most modern sites use WOFF 2.0 specifically because it's the most efficient version available right now.
+        </p>
+
+        <p>
+            For a real example, your CSS might look like: @font-face { font-family: 'MyFont'; src: url('fontfile.woff2') format('woff2'); }. Then, for your actual headers or body text, you just write font-family: 'MyFont', Helvetica, sans-serif;. This tells the browser exactly what to try first and what to do if it can't find the custom file. It's a very reliable system that makes it easy to keep a website looking consistent across all kinds of different devices.
+        </p>
+    </main>
+
+    <footer>
+        <p>CSIT 121 Lab 10 - Mariah Bee</p>
+    </footer>
+
+</body>
+</html>
